@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f4f6">
+<title>五子棋 · 人机 / 双人 / 联机</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <h1>五子棋</h1>
+    <div class="modes">
+      <button class="mode-btn active" data-mode="pve">人机对战</button>
+      <button class="mode-btn" data-mode="pvp">双人对战</button>
+      <button class="mode-btn" data-mode="online">联机对战</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="board-area">
+      <div class="board-wrap" id="boardWrap">
+        <div class="board" id="board">
+          <svg class="board-svg" id="boardSvg" viewBox="0 0 900 900" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="layer" id="hintLayer"></div>
+          <div class="layer" id="pieceLayer"></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="panel">
+      <div class="status-card">
+        <div class="turn-dot x" id="turnDot"></div>
+        <div class="status-main">
+          <div class="status-text" id="status">X 方先行</div>
+          <div class="engine-info" id="engineInfo" hidden></div>
+        </div>
+      </div>
+
+      <div class="group eval-group">
+        <div class="eval-head">
+          <span class="eval-side x">X <b id="evalXTxt">50%</b></span>
+          <span class="eval-score" id="evalScore">0.0</span>
+          <span class="eval-side o"><b id="evalOTxt">50%</b> O</span>
+        </div>
+        <div class="eval-track">
+          <div class="eval-fill" id="evalFill"></div>
+        </div>
+        <canvas class="eval-canvas" id="evalCanvas"></canvas>
+      </div>
+
+      <div class="group" id="pveGroup">
+        <label class="group-title">电脑棋力</label>
+        <div class="seg" id="diffSeg">
+          <button data-diff="easy">简单</button>
+          <button data-diff="normal" class="active">普通</button>
+          <button data-diff="hard">困难</button>
+        </div>
+      </div>
+
+      <div class="group" id="sideGroup">
+        <label class="group-title">我方执子</label>
+        <div class="seg" id="sideSeg">
+          <button data-side="1" class="active">执 X · 先手</button>
+          <button data-side="-1">执 O · 后手</button>
+        </div>
+      </div>
+
+      <div class="group" id="onlineGroup" hidden>
+        <label class="group-title">联机对战</label>
+
+        <div class="online-step" id="onlineIntro">
+          <div class="actions">
+            <button class="btn primary" id="hostBtn">创建房间</button>
+            <button class="btn" id="joinBtn">加入房间</button>
+          </div>
+        </div>
+
+        <div class="online-step" id="onlineHostFlow" hidden>
+          <p class="online-hint">把房号告诉朋友：</p>
+          <div class="room-code" id="roomCode">·····</div>
+          <button class="btn" id="copyRoomBtn">复制房号</button>
+          <p class="online-hint" style="margin-top:10px">对方输入房号后会自动接上。</p>
+        </div>
+
+        <div class="online-step" id="onlineGuestFlow" hidden>
+          <p class="online-hint">输入朋友给你的房号：</p>
+          <div class="chat-input-row">
+            <input class="room-input" id="roomInput" maxlength="5"
+                   placeholder="请输入房号" autocomplete="off" spellcheck="false">
+            <button class="btn primary" id="joinRoomBtn">连接</button>
+          </div>
+        </div>
+
+        <div class="online-status" id="onlineStatus"></div>
+      </div>
+
+      <div class="group" id="netGroup" hidden>
+        <label class="group-title" id="netSideLabel">联机中</label>
+        <div class="actions">
+          <button class="btn" id="netResignBtn">认输</button>
+          <button class="btn primary" id="rematchBtn">再战一局</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="actions">
+          <button class="btn" id="undoBtn">悔棋</button>
+          <button class="btn" id="resignBtn">认输</button>
+        </div>
+        <div class="actions" style="margin-top:8px">
+          <button class="btn primary" id="restartBtn">重新开始</button>
+        </div>
+        <div class="actions" style="margin-top:8px">
+          <button class="btn" id="flipBtn">翻转棋盘</button>
+          <button class="btn on" id="soundBtn">音效 开</button>
+          <button class="btn" id="copyRecordBtn">复制棋谱</button>
+        </div>
+      </div>
+
+      <div class="group" id="scoreGroup" hidden>
+        <label class="group-title">对局评分</label>
+        <div id="scoreBody"></div>
+      </div>
+
+      <div class="group chat-group" id="chatGroup" hidden>
+        <label class="group-title" id="chatTitle">对话 · 对手</label>
+        <div class="chat-list" id="chatList"></div>
+        <div class="chat-input-row">
+          <input class="chat-input" id="chatInput" maxlength="200"
+                 placeholder="说点什么…" autocomplete="off">
+          <button class="btn chat-send" id="chatSend">发送</button>
+        </div>
+      </div>
+
+      <div class="group moves">
+        <label class="group-title">棋谱</label>
+        <div class="move-list" id="moveList"></div>
+      </div>
+    </aside>
+  </main>
+
+</div>
+
+<script src="js/rules.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/notation.js"></script>
+<script src="js/online.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
