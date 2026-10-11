@@ -170,7 +170,7 @@ body {
 .piece .stroke {
   fill: none;
   stroke: currentColor;
-  stroke-width: 12;
+  stroke-width: 15;
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: opacity .18s ease;
@@ -227,7 +227,7 @@ body {
 .mark.ghost .stroke {
   fill: none;
   stroke: currentColor;
-  stroke-width: 12;
+  stroke-width: 15;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
